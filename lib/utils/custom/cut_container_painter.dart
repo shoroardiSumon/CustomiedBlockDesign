@@ -37,7 +37,6 @@ class CutContainerPainter extends CustomPainter {
     );
 
     // 45-degree cut
-    //path.lineTo(size.width - smoothRadius, cutSize + smoothRadius);
     path.lineTo(size.width - smoothRadius, containerRadius + 0);
 
     // Second smooth curve after the 45-degree cut

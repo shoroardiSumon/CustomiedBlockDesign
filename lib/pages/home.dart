@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:widgettest/pages/bg_screen.dart';
 import 'package:widgettest/pages/dashboard.dart';
 import 'package:widgettest/utils/app_navigator.dart';
 import 'package:widgettest/utils/constants.dart';
@@ -20,7 +21,7 @@ class _HomePageState extends State<HomePage> {
           CustomPaint(
             painter: MultiRadialGradientPainter(
               bgColor: const Color(0xFF1E0A3C),
-              gradientColor: const Color.fromARGB(255, 40, 20, 132),
+              gradientColor: Color.fromARGB(255, 33, 16, 122),
             ),
             child: Container(),
           ),
@@ -50,21 +51,21 @@ class _HomePageState extends State<HomePage> {
       
                 const SizedBox(height: 20,),
       
-                // InkWell(
-                //   onTap: () {
-                //     Navigator.of(context).push(appNavigator(const Dashboard(), const Offset(1, 0), 500));
-                //   },
-                //   child: Container(
-                //     height: 48,
-                //     width: double.infinity,
-                //     alignment: Alignment.center,
-                //     decoration: BoxDecoration(
-                //       borderRadius: BorderRadius.circular(20),
-                //       color: Colors.black
-                //     ),
-                //     child: const Text("Dashboard", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w400),),
-                //   ),
-                // )
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(appNavigator(const IndigoBackground(), const Offset(1, 0), 500));
+                  },
+                  child: Container(
+                    height: 48,
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.black
+                    ),
+                    child: const Text("Background", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w400),),
+                  ),
+                )
               ],
             ),
           )

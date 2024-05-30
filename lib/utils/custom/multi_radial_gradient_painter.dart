@@ -22,12 +22,18 @@ class MultiRadialGradientPainter extends CustomPainter {
     // Define fixed positions and radii for the gradients
     final List<Offset> centers = [
       Offset(size.width * 0.25, size.height * 0.5),
+      Offset(size.width * 0.45, size.height * 0.5),
+
       Offset(size.width * 0.5, size.height * 0.25),
+
       Offset(size.width * 0.75, size.height * 0.75),
     ];
     final List<double> radii = [
       size.width * 0.25,
       size.width * 0.25,
+
+      size.width * 0.25,
+
       size.width * 0.25,
     ];
 
@@ -35,7 +41,7 @@ class MultiRadialGradientPainter extends CustomPainter {
       // Create radial gradient with an additional color stop for indigo fade
       final gradient = RadialGradient(
         colors: [gradientColor, fadeColor.withOpacity(0.0), fadeColor],
-        stops: const [0.0, 0.3, 1.0], // Smooth transition to transparent and then to indigo
+        stops: const [0.0, 0.25, 1.0], // Smooth transition to transparent and then to indigo
         radius: 1.0,
         center: Alignment(
           (2 * centers[i].dx / size.width) - 1,

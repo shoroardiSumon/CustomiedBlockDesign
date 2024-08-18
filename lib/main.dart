@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:widgettest/controller/block_provider.dart';
 import 'package:widgettest/pages/home.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => BlockProvider())
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

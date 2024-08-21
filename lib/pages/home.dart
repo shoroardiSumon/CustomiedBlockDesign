@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:widgettest/pages/bg_screen.dart';
 import 'package:widgettest/pages/bubble_block.dart';
 import 'package:widgettest/pages/dashboard.dart';
+import 'package:widgettest/pages/my_line_chart.dart';
 import 'package:widgettest/utils/app_navigator.dart';
 import 'package:widgettest/utils/constants.dart';
 import 'package:widgettest/utils/custom/custom_dialog.dart';
@@ -34,6 +35,24 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(appNavigator(const MyLineChart(), const Offset(1, 0), 500));
+                  },
+                  child: Container(
+                    height: 48,
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.black
+                    ),
+                    child: const Text("Line Chart", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w400),),
+                  ),
+                ),
+
+                const SizedBox(height: 20,),
 
                 InkWell(
                   onTap: () {

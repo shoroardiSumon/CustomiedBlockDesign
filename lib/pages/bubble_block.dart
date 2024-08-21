@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:widgettest/model/chart_data.dart';
+import 'package:widgettest/model/bubble_chart_data.dart';
 import 'package:widgettest/pages/bubble_chart.dart';
 import 'package:widgettest/utils/constants.dart';
 
@@ -11,13 +11,13 @@ class MyBubbleBlock extends StatefulWidget {
 }
 
 class _MyBubbleBlockState extends State<MyBubbleBlock> {
-  List<ChartData> getChartData() {
+  List<BubbbleChartData> getChartData() {
   return [
-    ChartData(2041),
-    ChartData(1991),
-    ChartData(681),
-    ChartData(445),
-    ChartData(21),
+    BubbbleChartData(2041),
+    BubbbleChartData(1991),
+    BubbbleChartData(681),
+    BubbbleChartData(445),
+    BubbbleChartData(21),
   ];
 }
 

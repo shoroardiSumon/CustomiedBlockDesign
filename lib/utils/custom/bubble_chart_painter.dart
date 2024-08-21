@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:widgettest/model/chart_data.dart';
+import 'package:widgettest/model/bubble_chart_data.dart';
 
 class BubbleChartPainter extends CustomPainter {
-  final List<ChartData> data;
+  final List<BubbbleChartData> data;
   BubbleChartPainter(this.data);
 
   @override

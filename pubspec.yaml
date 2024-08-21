@@ -41,6 +41,7 @@ dependencies:
   dropdown_button2: ^2.3.9
   provider:
   bubble_chart: any
+  syncfusion_flutter_charts: ^26.2.9
 
 dev_dependencies:
   flutter_test:

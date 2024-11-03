@@ -1,9 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:widgettest/pages/bg_screen.dart';
 import 'package:widgettest/pages/bubble_block.dart';
+import 'package:widgettest/pages/coach_mark_screen.dart';
 import 'package:widgettest/pages/dashboard.dart';
 import 'package:widgettest/pages/my_line_chart.dart';
-import 'package:widgettest/pages/tooltip_tutorial.dart';
+import 'package:widgettest/pages/showcase_tool_screen.dart';
+import 'package:widgettest/pages/showcase_with_child_screen.dart';
+import 'package:widgettest/pages/tooltip_example.dart';
+import 'package:widgettest/pages/tooltip_tutorial_screen.dart';
+import 'package:widgettest/pages/tooltip_two_screen.dart';
 import 'package:widgettest/utils/app_navigator.dart';
 import 'package:widgettest/utils/constants.dart';
 import 'package:widgettest/utils/custom/custom_dialog.dart';
@@ -36,6 +43,117 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(appNavigator(const CoachMarkScreen(), const Offset(1, 0), 500));
+                  },
+                  child: Container(
+                    height: 48,
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.black
+                    ),
+                    child: const Text("Coach Mark Example", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w400),),
+                  ),
+                ),
+
+                const SizedBox(height: 20,),
+
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(appNavigator(const TooltipExampleScreen(), const Offset(1, 0), 500));
+                    // Navigator.of(context).push(
+                    //   CupertinoPageRoute(
+                    //     builder: (context) => ShowCaseWidget(
+                    //       builder: (context) => const ShowcaseScrrenWithChild(),
+                    //     ),
+                    //   ),
+                    // );
+                  },
+                  child: Container(
+                    height: 48,
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.black
+                    ),
+                    child: const Text("Tooltip Example", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w400),),
+                  ),
+                ),
+
+                const SizedBox(height: 20,),
+
+                InkWell(
+                  onTap: () {
+                    //Navigator.of(context).push(appNavigator(const ShowCaseScreen(), const Offset(1, 0), 500));
+                    Navigator.of(context).push(
+                      CupertinoPageRoute(
+                        builder: (context) => ShowCaseWidget(
+                          builder: (context) => const ShowcaseScrrenWithChild(),
+                        ),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    height: 48,
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.black
+                    ),
+                    child: const Text("Tooltip Showcase 2.0", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w400),),
+                  ),
+                ),
+
+                const SizedBox(height: 20,),
+
+                InkWell(
+                  onTap: () {
+                    //Navigator.of(context).push(appNavigator(const ShowCaseScreen(), const Offset(1, 0), 500));
+                    Navigator.of(context).push(
+                      CupertinoPageRoute(
+                        builder: (context) => ShowCaseWidget(
+                          builder: (context) => const ShowCaseScreen(),
+                        ),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    height: 48,
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.black
+                    ),
+                    child: const Text("Tooltip Showcase", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w400),),
+                  ),
+                ),
+
+                const SizedBox(height: 20,),
+
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(appNavigator(TootipTwoScreen(), const Offset(1, 0), 500));
+                  },
+                  child: Container(
+                    height: 48,
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.black
+                    ),
+                    child: const Text("Tooltip Co-pilot", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w400),),
+                  ),
+                ),
+
+                const SizedBox(height: 20,),
 
                 InkWell(
                   onTap: () {

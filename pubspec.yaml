@@ -43,6 +43,8 @@ dependencies:
   bubble_chart: any
   syncfusion_flutter_charts: ^26.2.9
   shared_preferences: ^2.3.2
+  showcaseview: ^3.0.0
+  tutorial_coach_mark: ^1.2.12
 
 dev_dependencies:
   flutter_test:

@@ -29,7 +29,7 @@ class _CoachMarkScreenState extends State<CoachMarkScreen> {
 
   @override
   void initState() {
-    Future.delayed( const Duration(milliseconds: 400), () {
+    Future.delayed( const Duration(milliseconds: 500), () {
       showTutorial();
     });
     super.initState();
@@ -55,38 +55,34 @@ class _CoachMarkScreenState extends State<CoachMarkScreen> {
       ),
       onClickTarget: (target) => _scrollToTarget(target),
       onClickOverlay: (target) => _scrollToTarget(target),
-      useSafeArea: true,
+      //useSafeArea: true,
     )..show(context: context);
   }
 
-  void _scrollToTarget(TargetFocus target) {
-    // Get the position of the target widget
-    final renderBox = target.keyTarget!.currentContext!.findRenderObject() as RenderBox;
-    final position = renderBox.localToGlobal(Offset.zero).dy;
-
-    // Calculate the scroll offset to bring the target to the center of the screen
-    final screenHeight = MediaQuery.of(context).size.height;
-    final targetCenterOffset = position - screenHeight / 2 + renderBox.size.height / 2;
-
-    // Scroll the controller to the calculated offset
-    _scrollController.animateTo(
-      targetCenterOffset,
-      duration: const Duration(milliseconds: 400),
-      curve: Curves.easeInOut,
-    );
-  }
-
-
   // void _scrollToTarget(TargetFocus target) {
-  //   final renderBox = target.keyTarget!.currentContext!.findRenderObject() as RenderBox;
+  //   final RenderBox renderBox = target.keyTarget!.currentContext!.findRenderObject() as RenderBox;
   //   final position = renderBox.localToGlobal(Offset.zero).dy;
 
-  //   // Calculate the offset to scroll the widget to the center of the screen
-  //   final offset = position - (MediaQuery.of(context).size.height / 2) + (renderBox.size.height / 2);
+  //   _scrollController.animateTo(
+  //     //position - (MediaQuery.of(context).size.height / 2),
+  //     900,
+  //     duration: const Duration(milliseconds: 300),
+  //     curve: Curves.easeInOut,
+  //   );
+  // }
+
+  // void _scrollToTarget(TargetFocus target) {
+  //   // Retrieve the widget's position in the viewport
+  //   final RenderBox renderBox = target.keyTarget!.currentContext!.findRenderObject() as RenderBox;
+  //   final position = renderBox.localToGlobal(Offset.zero, ancestor: context.findRenderObject()).dy;
+
+  //   // Calculate offset to bring the widget to the center of the screen
+  //   final screenHeight = MediaQuery.of(context).size.height;
+  //   final targetOffset = position - (screenHeight / 2) + (renderBox.size.height / 2);
 
   //   // Scroll to the calculated offset
   //   _scrollController.animateTo(
-  //     offset,
+  //     targetOffset.clamp(0.0, _scrollController.position.maxScrollExtent),
   //     duration: const Duration(milliseconds: 400),
   //     curve: Curves.easeInOut,
   //   );
@@ -96,12 +92,40 @@ class _CoachMarkScreenState extends State<CoachMarkScreen> {
   //   final RenderBox renderBox = target.keyTarget!.currentContext!.findRenderObject() as RenderBox;
   //   final position = renderBox.localToGlobal(Offset.zero).dy;
 
+  //   // Calculate offset to scroll the widget to the center of the screen
+  //   final screenHeight = MediaQuery.of(context).size.height;
+  //   final targetOffset = position - screenHeight / 2 + renderBox.size.height / 2;
+
+  //   // Scroll to the calculated offset
   //   _scrollController.animateTo(
-  //     position - (MediaQuery.of(context).size.height / 2),
-  //     duration: const Duration(milliseconds: 300),
+  //     targetOffset,
+  //     duration: const Duration(milliseconds: 1000),
   //     curve: Curves.easeInOut,
   //   );
   // }
+
+  void _scrollToTarget(TargetFocus target) {
+    // Get the position of the target widget
+    final RenderBox renderBox = target.keyTarget!.currentContext!.findRenderObject() as RenderBox;
+    final position = renderBox.localToGlobal(Offset.zero).dy;
+
+    // Calculate one-third of the screen height
+    final oneThirdScreenHeight = MediaQuery.of(context).size.height / 3;
+
+    // If the target's position is beyond one-third of the screen, scroll to it
+    if (position > oneThirdScreenHeight) {
+      final targetOffset = position - oneThirdScreenHeight;
+
+      _scrollController.animateTo(
+        targetOffset,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+
+
 
   void initTarget(){
     targets = [
@@ -114,8 +138,13 @@ class _CoachMarkScreenState extends State<CoachMarkScreen> {
             align: ContentAlign.bottom,
             builder: (context, controller) {
               return CustomShowcaseContent(
+                isShowBottom: true,
                 description: "This is Widget 1", 
-                onNext: () => controller.next(), 
+                //onNext: () => controller.next(), 
+                onNext: () {
+                  controller.next();
+                  //_scrollToTarget(targets[0]);
+                },
                 onCancel: () => controller.skip(), 
                 onSkip: () => controller.skip(),
               );
@@ -133,8 +162,13 @@ class _CoachMarkScreenState extends State<CoachMarkScreen> {
             align: ContentAlign.bottom,
             builder: (context, controller) {
               return CustomShowcaseContent(
+                isShowBottom: true,
                 description: "This is Widget 2", 
-                onNext: () => controller.next(), 
+                //onNext: () => controller.next(), 
+                onNext: () {
+                  controller.next();
+                  //_scrollToTarget(targets[1]);
+                },
                 onCancel: () => controller.skip(), 
                 onSkip: () => controller.skip(),
               );
@@ -152,8 +186,13 @@ class _CoachMarkScreenState extends State<CoachMarkScreen> {
             align: ContentAlign.bottom,
             builder: (context, controller) {
               return CustomShowcaseContent(
+                isShowBottom: true,
                 description: "This is Widget 3", 
-                onNext: () => controller.next(), 
+                //onNext: () => controller.next(), 
+                onNext: () {
+                  controller.next();
+                  _scrollToTarget(targets[2]);
+                },
                 onCancel: () => controller.skip(), 
                 onSkip: () => controller.skip(),
               );
@@ -171,8 +210,14 @@ class _CoachMarkScreenState extends State<CoachMarkScreen> {
             align: ContentAlign.bottom,
             builder: (context, controller) {
               return CustomShowcaseContent(
+                isShowBottom: true,
                 description: "This is Widget 4", 
-                onNext: () => controller.next(), 
+                //onNext: () => controller.next(), 
+                onNext: () {
+                  controller.next();
+                  _scrollToTarget(targets[3]);
+                },
+
                 onCancel: () => controller.skip(), 
                 onSkip: () => controller.skip(),
               );
@@ -187,11 +232,16 @@ class _CoachMarkScreenState extends State<CoachMarkScreen> {
         shape: ShapeLightFocus.RRect,
         contents: [
           TargetContent(
-            align: ContentAlign.top,
+            align: ContentAlign.bottom,
             builder: (context, controller) {
               return CustomShowcaseContent(
+                isShowBottom: true,
                 description: "This is Widget 5", 
-                onNext: () => controller.next(), 
+                //onNext: () => controller.next(),
+                onNext: () {
+                  controller.next();
+                  _scrollToTarget(targets[4]);
+                }, 
                 onCancel: () => controller.skip(), 
                 onSkip: () => controller.skip(),
               );
@@ -206,11 +256,16 @@ class _CoachMarkScreenState extends State<CoachMarkScreen> {
         shape: ShapeLightFocus.RRect,
         contents: [
           TargetContent(
-            align: ContentAlign.top,
+            align: ContentAlign.bottom,
             builder: (context, controller) {
               return CustomShowcaseContent(
+                isShowBottom: true,
                 description: "This is Widget 6", 
-                onNext: () => controller.next(), 
+                //onNext: () => controller.next(), 
+                onNext: () {
+                  controller.next();
+                  _scrollToTarget(targets[5]);
+                },
                 onCancel: () => controller.skip(), 
                 onSkip: () => controller.skip(),
               );
@@ -228,8 +283,13 @@ class _CoachMarkScreenState extends State<CoachMarkScreen> {
             align: ContentAlign.top,
             builder: (context, controller) {
               return CustomShowcaseContent(
+                isShowBottom: false,
                 description: "This is Widget 7", 
-                onNext: () => controller.next(), 
+                //onNext: () => controller.next(), 
+                onNext: () {
+                  controller.next();
+                  _scrollToTarget(targets[6]);
+                },
                 onCancel: () => controller.skip(), 
                 onSkip: () => controller.skip(),
               );
@@ -247,8 +307,13 @@ class _CoachMarkScreenState extends State<CoachMarkScreen> {
             align: ContentAlign.top,
             builder: (context, controller) {
               return CustomShowcaseContent(
+                isShowBottom: false,
                 description: "This is Widget 8", 
-                onNext: () => controller.next(), 
+                //onNext: () => controller.next(), 
+                onNext: () {
+                  controller.next();
+                  _scrollToTarget(targets[7]);
+                },
                 onCancel: () => controller.skip(), 
                 onSkip: () => controller.skip(),
               );
@@ -266,8 +331,13 @@ class _CoachMarkScreenState extends State<CoachMarkScreen> {
             align: ContentAlign.top,
             builder: (context, controller) {
               return CustomShowcaseContent(
+                isShowBottom: false,
                 description: "This is Widget 9", 
-                onNext: () => controller.next(), 
+                //onNext: () => controller.next(), 
+                onNext: () {
+                  controller.next();
+                  _scrollToTarget(targets[8]);
+                },
                 onCancel: () => controller.skip(), 
                 onSkip: () => controller.skip(),
               );

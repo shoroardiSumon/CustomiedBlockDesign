@@ -7,6 +7,7 @@ class CustomShowcaseContent extends StatelessWidget {
   final VoidCallback? onPrevious;
   final VoidCallback onCancel;
   final VoidCallback onSkip;
+  final bool isShowBottom;
 
   const CustomShowcaseContent({
     super.key,
@@ -15,17 +16,23 @@ class CustomShowcaseContent extends StatelessWidget {
     this.onPrevious,
     required this.onCancel,
     required this.onSkip,
+    required this.isShowBottom
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(16),
       alignment: Alignment.center,
-      
+      width: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
+        color: Colors.blue.shade300,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(isShowBottom? 8 : 24),
+          topRight: const Radius.circular(24),
+          bottomLeft: Radius.circular(isShowBottom? 24 : 8),
+          bottomRight: const Radius.circular(24),
+        ),
         boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 10)],
       ),
       child: Column(

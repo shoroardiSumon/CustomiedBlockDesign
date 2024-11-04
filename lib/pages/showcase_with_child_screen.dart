@@ -73,21 +73,21 @@ class _ShowcaseScrrenWithChildState extends State<ShowcaseScrrenWithChild> {
                     
                     container: Padding(
                       padding: const EdgeInsets.all(16),
-                      child: CustomShowcaseContent(
-                        description: "Widget 111111",
-                        onNext: () {
-                          print("Next");
-                        },
-                        onCancel: () {
-                          print("Cancel");
-                        },
-                        onSkip: () {
-                          print("Skip");
-                        },  
-                        onPrevious: () {
-                          print("Previous");
-                        },
-                      )
+                      // child: CustomShowcaseContent(
+                      //   description: "Widget 111111",
+                      //   onNext: () {
+                      //     print("Next");
+                      //   },
+                      //   onCancel: () {
+                      //     print("Cancel");
+                      //   },
+                      //   onSkip: () {
+                      //     print("Skip");
+                      //   },  
+                      //   onPrevious: () {
+                      //     print("Previous");
+                      //   },
+                      // )
                     ),
                     
                     onTargetClick: () {
@@ -117,21 +117,21 @@ class _ShowcaseScrrenWithChildState extends State<ShowcaseScrrenWithChild> {
                     
                     container: Padding(
                       padding: const EdgeInsets.all(16),
-                      child: CustomShowcaseContent(
-                        description: "Widget 222222",
-                        onNext: () {
-                          print("Next");
-                        },
-                        onCancel: () {
-                          print("Cancel");
-                        },
-                        onSkip: () {
-                          print("Skip");
-                        },  
-                        onPrevious: () {
-                          print("Previous");
-                        },
-                      )
+                      // child: CustomShowcaseContent(
+                      //   description: "Widget 222222",
+                      //   onNext: () {
+                      //     print("Next");
+                      //   },
+                      //   onCancel: () {
+                      //     print("Cancel");
+                      //   },
+                      //   onSkip: () {
+                      //     print("Skip");
+                      //   },  
+                      //   onPrevious: () {
+                      //     print("Previous");
+                      //   },
+                      // )
                     ),
                     
                     onTargetClick: () {

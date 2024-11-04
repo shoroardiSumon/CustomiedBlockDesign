@@ -8,6 +8,7 @@ import 'package:widgettest/pages/dashboard.dart';
 import 'package:widgettest/pages/my_line_chart.dart';
 import 'package:widgettest/pages/showcase_tool_screen.dart';
 import 'package:widgettest/pages/showcase_with_child_screen.dart';
+import 'package:widgettest/pages/tooltip_demo_screen.dart';
 import 'package:widgettest/pages/tooltip_example.dart';
 import 'package:widgettest/pages/tooltip_tutorial_screen.dart';
 import 'package:widgettest/pages/tooltip_two_screen.dart';
@@ -43,6 +44,24 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(appNavigator(const TooltipDemoScreen(), const Offset(1, 0), 500));
+                  },
+                  child: Container(
+                    height: 48,
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.black
+                    ),
+                    child: const Text("Tooltip Demo", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w400),),
+                  ),
+                ),
+
+                const SizedBox(height: 20,),
 
                 InkWell(
                   onTap: () {

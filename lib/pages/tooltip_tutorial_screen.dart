@@ -35,24 +35,6 @@ class _TooltipTutorialScreenState extends State<TooltipTutorialScreen> {
     initializeTooltip();
   }
 
-//   @override
-// void initState() {
-//   super.initState();
-//   initializeTooltip();
-  
-//   _scrollController.addListener(() {
-//     if (overlayEntry != null) {
-//       updateTooltipPosition();
-//     }
-//   });
-// }
-
-  // @override
-  // void dispose() {
-  //   _scrollController.removeListener(updateTooltipPosition);
-  //   super.dispose();
-  // }
-
   Future<void> initializeTooltip() async {
     final provider = Provider.of<TooltipProvider>(context, listen: false);
     provider.clearWidgets();
@@ -82,402 +64,113 @@ class _TooltipTutorialScreenState extends State<TooltipTutorialScreen> {
     }
   }
 
-//   void showTooltip() {
-//   if (overlayEntry != null) {
-//     overlayEntry!.remove();
-//     overlayEntry = null;
-//   }
-
-//   updateTooltipPosition();
-// }
-
-// void updateTooltipPosition() {
-//   final provider = Provider.of<TooltipProvider>(context, listen: false);
-  
-//   if (provider.currentIndex < provider.widgetKeys.length) {
-//     final RenderBox renderBox = provider.widgetKeys[provider.currentIndex]
-//         .currentContext!
-//         .findRenderObject() as RenderBox;
-//     final Offset position = renderBox.localToGlobal(Offset.zero);
-//     final Size size = renderBox.size;
-//     final screenHeight = MediaQuery.of(context).size.height;
-
-//     final bool shouldShowAbove = position.dy + size.height + 132 > screenHeight;
-//     final double tooltipPositionY = shouldShowAbove
-//         ? position.dy - 132 // Appear above the widget
-//         : position.dy + size.height; // Appear below the widget
-
-//     overlayEntry?.markNeedsBuild(); // Redraw the overlay to update position
-
-//     overlayEntry = OverlayEntry(
-//       builder: (context) => Stack(
-//         children: [
-//           Positioned.fill(
-//             child: GestureDetector(
-//               onPanUpdate: (details) {
-//                 _scrollController.jumpTo(
-//                   _scrollController.position.pixels - details.delta.dy,
-//                 );
-//               },
-//               child: BackdropFilter(
-//                 filter: ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
-//                 child: Container(
-//                   color: Colors.black.withOpacity(0.3),
-//                 ),
-//               ),
-//             ),
-//           ),
-//           Positioned(
-//             left: position.dx,
-//             top: tooltipPositionY,
-//             child: CustomTooltip(
-//               text: "Some instruction showing here...",
-//               onSkip: () {
-//                 provider.skipTooltip();
-//                 overlayEntry?.remove();
-//                 overlayEntry = null;
-//               },
-//               onPrevious: () {
-//                 provider.previousTooltip();
-//                 showTooltip();
-//               },
-//               onNext: () {
-//                 provider.nextTooltip();
-//                 showTooltip();
-//               },
-//               onClose: () {
-//                 overlayEntry?.remove();
-//                 overlayEntry = null;
-//               },
-//               isFirst: provider.isFirstTooltip,
-//               isLast: provider.isLastTooltip,
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-    
-//     Overlay.of(context).insert(overlayEntry!);
-//   }
-// }
-
-
   void showTooltip() {
-  final provider = Provider.of<TooltipProvider>(context, listen: false);
+    final provider = Provider.of<TooltipProvider>(context, listen: false);
 
-  if (overlayEntry != null) {
-    overlayEntry!.remove();
-    overlayEntry = null;
-  }
-
-  if (provider.currentIndex < provider.widgetKeys.length) {
-    final RenderBox renderBox = provider.widgetKeys[provider.currentIndex]
-        .currentContext!
-        .findRenderObject() as RenderBox;
-    final Offset position = renderBox.localToGlobal(Offset.zero);
-    final Size size = renderBox.size;
-
-    final screenHeight = MediaQuery.of(context).size.height;
-    final bool shouldShowAbove = position.dy + size.height + 132 > screenHeight;
-
-    final double tooltipPositionY = shouldShowAbove
-        ? position.dy - 132 // Appear above the widget
-        : position.dy + size.height; // Appear below the widget
-
-    // Auto-scroll if the tooltip is out of view
-    if (!shouldShowAbove &&
-        (tooltipPositionY + 132 > _scrollController.position.pixels + screenHeight)) {
-      _scrollController.animateTo(
-        tooltipPositionY + 132 - screenHeight, // Scroll to bring tooltip fully in view
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
+    // Check if there's already an overlay entry to remove
+    if (overlayEntry != null) {
+      overlayEntry!.remove();
+      overlayEntry = null; // Set to null after removal to avoid future calls on it
     }
 
-    overlayEntry = OverlayEntry(
-      builder: (context) => Stack(
-        children: [
-          // Blurred background layer with scrollable capability
-          Positioned.fill(
-            child: GestureDetector(
-              onPanUpdate: (details) {
-                _scrollController.jumpTo(
-                  _scrollController.position.pixels - details.delta.dy,
-                );
-              },
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
-                child: Container(
-                  color: Colors.black.withOpacity(0.3),
+    if (provider.currentIndex < provider.widgetKeys.length) {
+      final RenderBox renderBox = provider.widgetKeys[provider.currentIndex]
+          .currentContext!
+          .findRenderObject() as RenderBox;
+      final Offset position = renderBox.localToGlobal(Offset.zero);
+      final Size size = renderBox.size;
+
+      overlayEntry = OverlayEntry(
+        builder: (context) => Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            alignment: Alignment.center,
+            child: Stack(
+              children: [
+                // Blurred background layer
+                Positioned.fill(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 0.9, sigmaY: 0.9),
+                    child: Container(
+                      color: Colors.black.withOpacity(0.3), // Adjust opacity for dim effect
+                      //color: Colors.transparent, // Adjust opacity for dim effect
+                    ), 
+                  ),
                 ),
-              ),
+          
+                // Clear area for the highlighted widget
+                // Positioned(
+                //   left: position.dx,
+                //   top: position.dy,
+                //   child: BackdropFilter(
+                //     filter: ImageFilter.blur(sigmaX: -1.0, sigmaY: -1.0),
+                //     //I Need to get target widget
+                //     child: Container(
+                //       alignment: Alignment.center,
+                //       width: size.width,
+                //       height: size.height,
+                //       color: Colors.red,
+                //       child: const Text("I Need to get target widget", style: TextStyle(color: Colors.white, fontSize: 30),),
+                //     ),
+                //   ),
+                // ),
+
+                Positioned(
+                  left: position.dx,
+                  top: position.dy,
+                  //I Need to get target widget
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: size.width,
+                    height: size.height,
+                    color: Colors.red,
+                    child: const Text("I Need to get target widget", style: TextStyle(color: Colors.white, fontSize: 30),),
+                  ),
+                ),
+          
+                // Tooltip layer
+                Positioned(
+                  left: position.dx,
+                  top: position.dy + size.height + 10,
+                  child: Column(
+                    children: [
+                      
+                      CustomTooltip(
+                        text: "Some instruction showing here...",
+                        onSkip: () {
+                          provider.skipTooltip();
+                          overlayEntry?.remove(); // This is safe now
+                          overlayEntry = null; // Resetting for future use
+                        },
+                        onPrevious: () {
+                          provider.previousTooltip();
+                          showTooltip();
+                        },
+                        onNext: () {
+                          provider.nextTooltip();
+                          showTooltip();
+                        },
+                        onClose: () {
+                          overlayEntry?.remove(); // This is safe now
+                          overlayEntry = null; // Resetting for future use
+                        },
+                        isFirst: provider.isFirstTooltip,
+                        isLast: provider.isLastTooltip,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
+        ),
+      );
 
-          // Tooltip layer
-          Positioned(
-            left: position.dx,
-            top: tooltipPositionY,
-            child: CustomTooltip(
-              text: "Some instruction showing here...",
-              onSkip: () {
-                provider.skipTooltip();
-                overlayEntry?.remove();
-                overlayEntry = null;
-              },
-              onPrevious: () {
-                provider.previousTooltip();
-                showTooltip();
-              },
-              onNext: () {
-                provider.nextTooltip();
-                showTooltip();
-              },
-              onClose: () {
-                overlayEntry?.remove();
-                overlayEntry = null;
-              },
-              isFirst: provider.isFirstTooltip,
-              isLast: provider.isLastTooltip,
-            ),
-          ),
-        ],
-      ),
-    );
-
-    Overlay.of(context).insert(overlayEntry!);
+      Overlay.of(context).insert(overlayEntry!);
+    }
   }
-}
-
-
-//   void showTooltip() {
-//   final provider = Provider.of<TooltipProvider>(context, listen: false);
-
-//   if (overlayEntry != null) {
-//     overlayEntry!.remove();
-//     overlayEntry = null;
-//   }
-
-//   if (provider.currentIndex < provider.widgetKeys.length) {
-//     final RenderBox renderBox = provider.widgetKeys[provider.currentIndex]
-//         .currentContext!
-//         .findRenderObject() as RenderBox;
-//     final Offset position = renderBox.localToGlobal(Offset.zero);
-//     final Size size = renderBox.size;
-
-//     // Ensure the tooltip and widget are fully visible on the screen
-//     final screenHeight = MediaQuery.of(context).size.height;
-//     final bool shouldShowAbove = position.dy + size.height + 132 > screenHeight;
-
-//     // Calculate the tooltip's y-position based on whether it should appear above or below
-//     final double tooltipPositionY = shouldShowAbove
-//         ? position.dy - 132 // Appear above the widget
-//         : position.dy + size.height; // Appear below the widget
-
-//     overlayEntry = OverlayEntry(
-//       builder: (context) => Stack(
-//         children: [
-//           // Blurred background layer
-//           // Positioned.fill(
-//           //   child: BackdropFilter(
-//           //     filter: ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
-//           //     child: Container(
-//           //       color: Colors.black.withOpacity(0.3), // Optional dim effect
-//           //     ),
-//           //   ),
-//           // ),
-
-//           // Tooltip layer
-//           Positioned(
-//             left: position.dx,
-//             top: tooltipPositionY,
-//             child: CustomTooltip(
-//               text: "Some instruction showing here...",
-//               onSkip: () {
-//                 provider.skipTooltip();
-//                 overlayEntry?.remove();
-//                 overlayEntry = null;
-//               },
-//               onPrevious: () {
-//                 provider.previousTooltip();
-//                 showTooltip();
-//               },
-//               onNext: () {
-//                 provider.nextTooltip();
-//                 showTooltip();
-//               },
-//               onClose: () {
-//                 overlayEntry?.remove();
-//                 overlayEntry = null;
-//               },
-//               isFirst: provider.isFirstTooltip,
-//               isLast: provider.isLastTooltip,
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-
-//     Overlay.of(context).insert(overlayEntry!);
-//   }
-// }
-
-
-
-  // void showTooltip() {
-  //   final provider = Provider.of<TooltipProvider>(context, listen: false);
-
-  //   if (overlayEntry != null) {
-  //     overlayEntry!.remove();
-  //     overlayEntry = null;
-  //   }
-
-  //   if (provider.currentIndex < provider.widgetKeys.length) {
-  //     final RenderBox renderBox = provider.widgetKeys[provider.currentIndex]
-  //         .currentContext!
-  //         .findRenderObject() as RenderBox;
-  //     final Offset position = renderBox.localToGlobal(Offset.zero);
-  //     final Size size = renderBox.size;
-
-  //     // Scroll to make the target widget visible
-  //     _scrollController.animateTo(
-  //       position.dy,
-  //       duration: const Duration(milliseconds: 300),
-  //       curve: Curves.easeInOut,
-  //     );
-
-  //     overlayEntry = OverlayEntry(
-  //       builder: (context) => Container(
-  //         height: MediaQuery.of(context).size.height,
-  //         width: MediaQuery.of(context).size.width,
-  //         alignment: Alignment.center,
-  //         child: Stack(
-  //           children: [
-  //             // Full-screen blurred background
-  //             // Positioned.fill(
-  //             //   child: BackdropFilter(
-  //             //     filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-  //             //     child: Container(color: Colors.black.withOpacity(0.3)),
-  //             //   ),
-  //             // ),
-  //             Positioned(
-  //               left: position.dx,
-  //               top: position.dy + size.height + 10,
-  //               child: CustomTooltip(
-  //                 text: "Some instruction showing here...",
-  //                 onSkip: () {
-  //                   provider.skipTooltip();
-  //                   overlayEntry?.remove();
-  //                   overlayEntry = null;
-  //                 },
-  //                 onPrevious: () {
-  //                   provider.previousTooltip();
-  //                   showTooltip();
-  //                 },
-  //                 onNext: () {
-  //                   provider.nextTooltip();
-  //                   showTooltip();
-  //                 },
-  //                 onClose: () {
-  //                   overlayEntry?.remove();
-  //                   overlayEntry = null;
-  //                 },
-  //                 isFirst: provider.isFirstTooltip,
-  //                 isLast: provider.isLastTooltip,
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     );
-
-  //     Overlay.of(context).insert(overlayEntry!);
-  //   }
-  // }
-
-  // void showTooltip() {
-  //   final provider = Provider.of<TooltipProvider>(context, listen: false);
-
-  //   // Check if there's already an overlay entry to remove
-  //   if (overlayEntry != null) {
-  //     overlayEntry!.remove();
-  //     overlayEntry = null; // Set to null after removal to avoid future calls on it
-  //   }
-
-  //   if (provider.currentIndex < provider.widgetKeys.length) {
-  //     final RenderBox renderBox = provider.widgetKeys[provider.currentIndex]
-  //         .currentContext!
-  //         .findRenderObject() as RenderBox;
-  //     final Offset position = renderBox.localToGlobal(Offset.zero);
-  //     final Size size = renderBox.size;
-
-  //     overlayEntry = OverlayEntry(
-  //       builder: (context) => Container(
-  //         height: MediaQuery.of(context).size.height,
-  //         width: MediaQuery.of(context).size.width,
-  //         alignment: Alignment.center,
-  //         child: Stack(
-  //           children: [
-  //             // Blurred background layer
-  //             Positioned.fill(
-  //               child: BackdropFilter(
-  //                 filter: ImageFilter.blur(sigmaX: 0.0, sigmaY: 0.0),
-  //                 child: Container(
-  //                   //color: Colors.black.withOpacity(0.1), // Adjust opacity for dim effect
-  //                   color: Colors.transparent, // Adjust opacity for dim effect
-  //                 ),
-  //               ),
-  //             ),
-
-  //             // Clear area for the highlighted widget
-  //             // Positioned(
-  //             //   left: position.dx,
-  //             //   top: position.dy,
-  //             //   child: BackdropFilter(
-  //             //     filter: ImageFilter.blur(sigmaX: -1.0, sigmaY: -1.0),
-  //             //     child: Container(
-  //             //       width: size.width,
-  //             //       height: size.height,
-  //             //       color: Colors.transparent,
-  //             //     ),
-  //             //   ),
-  //             // ),
-
-  //             // Tooltip layer
-  //             Positioned(
-  //               left: position.dx,
-  //               top: position.dy + size.height + 10,
-  //               child: CustomTooltip(
-  //                 text: "Some instruction showing here...",
-  //                 onSkip: () {
-  //                   provider.skipTooltip();
-  //                   overlayEntry?.remove(); // This is safe now
-  //                   overlayEntry = null; // Resetting for future use
-  //                 },
-  //                 onPrevious: () {
-  //                   provider.previousTooltip();
-  //                   showTooltip();
-  //                 },
-  //                 onNext: () {
-  //                   provider.nextTooltip();
-  //                   showTooltip();
-  //                 },
-  //                 onClose: () {
-  //                   overlayEntry?.remove(); // This is safe now
-  //                   overlayEntry = null; // Resetting for future use
-  //                 },
-  //                 isFirst: provider.isFirstTooltip,
-  //                 isLast: provider.isLastTooltip,
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     );
-
-  //     Overlay.of(context).insert(overlayEntry!);
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -520,7 +213,7 @@ class _TooltipTutorialScreenState extends State<TooltipTutorialScreen> {
                       ),
                       const SizedBox(height: 20),
                       Container(
-                        height: 120,
+                        height: 200,
                         width: double.infinity,
                         key: widgetKey2,
                         padding: const EdgeInsets.all(16),
@@ -532,7 +225,7 @@ class _TooltipTutorialScreenState extends State<TooltipTutorialScreen> {
                       ),
                       const SizedBox(height: 20),
                       Container(
-                        height: 120,
+                        height: 80,
                         width: double.infinity,
                         key: widgetKey3,
                         padding: const EdgeInsets.all(16),
